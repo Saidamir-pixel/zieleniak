@@ -1,0 +1,141 @@
+/* Общие стили */
+body {
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f4f4f4;
+  font-family: Arial, sans-serif;
+}
+
+/* Стили для контейнера с сообщениями об ошибках */
+.message-container {
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1050;
+  text-align: center;
+  padding: 10px 0 20px 0;
+  color: black;
+}
+
+.alert {
+  background-color: #f44336; /* Красный цвет для ошибок */
+  color: white;
+  border: 2px solid #c0392b;
+  border-radius: 5px;
+  padding: 10px;
+  margin: 5px 0;
+  display: inline-block;
+}
+
+/* Стили для контейнера регистрации */
+.login-container {
+  background-color: #ffffff;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 3px 22.5px 9.5px rgba(0, 0, 0, 0.1);
+  max-width: 400px;
+  min-height: 200px;
+  margin: auto;
+}
+
+.login-container input {
+  padding: 10px;
+  background-color: #f1f1f1;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+  color: #333;
+  width: 90%;
+  margin-bottom: 15px;
+}
+
+.login-container input:focus {
+  outline: none;
+  box-shadow: 0 0 5px rgba(100, 153, 255, 0.8);
+  border-color: #6495ed;
+}
+
+.login-container label {
+  color: #333;
+  font-size: 16px;
+  margin-bottom: 5px;
+  display: block;
+}
+
+.login-container h2 {
+  color: #333;
+  font-size: 24px;
+  margin-bottom: 20px;
+  font-weight: bold;
+  text-align: center;
+}
+
+/* Стили для кнопок */
+.buttons a {
+  text-decoration: none;
+  color: #333;
+  font-weight: bold;
+  padding: 20px;
+}
+.buttons {
+  display: flex;
+  justify-content: space-between; /* Выравнивание кнопок по горизонтали */
+  align-items: center; /* Выравнивание кнопок по вертикали */
+  gap: 8%; /* Отступ между кнопками */
+}
+
+.button-49 {
+  color: white;
+  border: none;
+  padding: 12px 30px; /* одинаковые отступы для всех кнопок */
+  margin: 0; /* убираем margin для кнопок */
+  white-space: nowrap;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: #39ff14; /* Неоново-зеленый цвет */
+  transition: background-color 0.3s ease;
+  height: 50px; /* одинаковая высота */
+  width: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center; /* Центрирование контента по вертикали и горизонтали */
+}
+
+
+.button-49:hover {
+  background-color: #32cc13; /* Немного темнее при наведении */
+}
+
+.button-49:active {
+  transform: scale(0.98);
+}
+
+/* Адаптивный дизайн */
+@media (max-width: 768px) {
+  .login-container {
+    padding: 20px;
+    max-width: 90%;
+  }
+
+  .buttons {
+    gap: 1%;
+  }
+
+  .button-49 {
+    padding: 12px 20px;
+  }
+}
+
+@media (max-width: 500) {
+  .button-49 {
+    max-height: 30px;
+    max-width: 60px;
+  }
+}

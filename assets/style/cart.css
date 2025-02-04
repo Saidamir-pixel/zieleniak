@@ -1,0 +1,116 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+    background-color: #f9f9f9;
+}
+
+.method {
+    max-width: 200px;
+    margin: 30px auto;
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    font-weight: bold;
+}
+
+.method-group {
+    display: flex;
+    align-items: center; /* Выравнивание текста и радио по центру */
+    margin-bottom: 10px;
+}
+
+
+.method-group input[type="radio"] {
+    margin: 10px; /* Убираем лишние отступы у радио */
+}
+
+.method-group label {
+    margin: 0; /* Убираем лишние отступы у текста */
+}
+
+
+.cart-container {
+    max-width: 600px;
+    margin: 0 auto;
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+.cart-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #eee;
+}
+.cart-footer {
+    text-align: center;
+    margin-top: 20px;
+}
+
+#emptyBucket {
+    background-color: #03e355;
+    color: white;
+    padding: 10px 20px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+#emptyBucket:hover {
+    background: #32cc13;
+}
+
+.cart-footer button {
+    background-color: #03e355;
+    color: white;
+    padding: 10px 20px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.cart-footer button:hover {
+    background: #32cc13;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-blik {
+    max-width: 100px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    color: #555;
+}
+input, textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+textarea {
+    resize: vertical;
+}
+small {
+    display: block;
+    color: #888;
+    margin-top: 5px;
+}
+
+#courier-message {
+    margin: 15px;
+}

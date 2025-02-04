@@ -1,0 +1,299 @@
+/* Общие стили для body и html */
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: "Helvetica", "Arial", sans-serif;
+  background-color: #f0f0f0; /* Светло-серый фон для строгого стиля */
+  color: #333; /* Тёмный текст для контраста */
+  overflow-x: hidden; /* Предотвращение горизонтального скролла */
+}
+
+/* Стиль заголовка */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 50px;
+  background-color: #ffffff; 
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1); /* Тонкая тень для отделения от контента */
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.header .logo {
+  font-size: 1.5em;
+  font-weight: bold;
+  color: #333;
+}
+
+.links {
+  display: flex;
+}
+
+.header .links a {
+  text-decoration: none;
+  color: #333;
+  margin-left: 40px;
+  font-weight: bold;
+  transition: color 0.3s ease;
+}
+
+
+
+/* Контейнер для основного контента */
+.body-content {
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+/* Основной блок контента */
+.main-content {
+  width: 100%;
+  max-width: 800px;
+}
+
+/* Секция пользовательских покупок */
+.user-progress {
+  display: flex;
+  flex-direction: column; /* Расположение чека по вертикали */
+  gap: 20px; /* Расстояние между чеками */
+  margin: 20px 0;
+}
+
+/* Стиль отдельного чека */
+.cart-item {
+  background-color: #a2ff33; /* Белый фон чека */
+  border: 1px solid #ccc; /* Тонкая сероватая рамка */
+  border-radius: 5px; /* Закругленные углы */
+  padding: 20px;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1); /* Лёгкая тень для объёма */
+}
+
+.cart-item .date {
+  font-weight: bold;
+  font-size: 1.2em;
+  margin-bottom: 10px;
+  border-bottom: 1px solid #ddd; /* Разделительная линия */
+  padding-bottom: 5px;
+  background-color: #fff;
+}
+
+.cart-item .details p {
+  margin: 8px 0;
+  font-size: 0.95em;
+}
+
+.cart-item .details p strong {
+  display: inline-block;
+  width: 100px; /* Фиксированная ширина для названий полей */
+}
+
+.cart-item .footer {
+  text-align: right;
+  font-weight: bold;
+  margin-top: 15px;
+  border-top: 1px solid #ddd; /* Разделительная линия */
+  padding-top: 10px;
+  font-size: 1em;
+}
+
+/* Стилизация ссылок и кнопок */
+.links a {
+  color: #333;
+  text-decoration: none;
+  font-size: 1em;
+}
+
+.links a:hover {
+  color: #555;
+}
+
+/* Стилизация заголовков */
+.user-progress h2 {
+  text-align: center;
+  margin-bottom: 30px;
+  color: #333;
+}
+
+/* Стили для бургер-меню */
+.burger-menu {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+  z-index: 1000;
+}
+
+.burger-menu div {
+  width: 25px;
+  height: 3px;
+  background-color: white;
+  transition: 0.3s;
+}
+
+/* Скрытие и показ меню */
+.links {
+  display: flex;
+  gap: 15px;
+  transition: all 0.3s ease;
+}
+
+.links.active {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 60px;
+  right: 10px;
+  background: rgba(0, 0, 0, 0.8);
+  border-radius: 5px;
+  padding: 10px;
+}
+
+.links a {
+  color: white;
+  text-decoration: none;
+  margin: 5px 0;
+}
+
+.links a:hover {
+  color: #39ff14;
+}
+
+/* Анимация бургер-меню при активном состоянии */
+.burger-menu.active div:nth-child(1) {
+  transform: rotate(45deg) translate(5px, 5px);
+}
+
+.burger-menu.active div:nth-child(2) {
+  opacity: 0;
+}
+
+.burger-menu.active div:nth-child(3) {
+  transform: rotate(-45deg) translate(7px, -6px);
+}
+
+
+/* Медиазапросы для мобильных устройств */
+@media only screen and (max-width: 768px) {
+  .header {
+      padding: 15px 20px;
+  }
+
+  .header .links {
+      display: none; /* Скрытие ссылок по умолчанию */
+      flex-direction: column;
+      align-items: center;
+      background-color: #ffffff;
+      position: absolute;
+      top: 60px;
+      right: 20px;
+      left: 20px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+      z-index: 999;
+  }
+
+  .header .links.active {
+      display: flex; /* Показать при активном бургер-меню */
+  }
+
+  .burger-menu {
+      display: flex; /* Показать бургер-меню на мобильных */
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+  }
+
+  .burger-menu div {
+      width: 25px;
+      height: 3px;
+      background-color: #333;
+      transition: transform 0.3s ease, opacity 0.3s ease;
+  }
+
+  /* Анимация бургер-меню при активном состоянии */
+  .burger-menu.active div:nth-child(1) {
+      transform: rotate(45deg) translate(5px, 5px);
+  }
+
+  .burger-menu.active div:nth-child(2) {
+      opacity: 0;
+  }
+
+  .burger-menu.active div:nth-child(3) {
+      transform: rotate(-45deg) translate(7px, -6px);
+  }
+}
+
+
+
+@media only screen and (max-width: 768px) {
+
+  .logo {
+    text-shadow: 4px 4px 6px rgba(79, 79, 156, 1);
+  }
+
+  .burger-menu {
+      display: flex;
+  }
+  
+  .links {
+      display: none;
+      position: absolute;
+      top: 60px; /* Расстояние от верха шапки */
+      right: 0;
+      left: 0;
+      flex-direction: column;
+      align-items: center;
+      background-color: rgba(93, 78, 120, 0.9); /* Фон ссылок, гармонирующий с шапкой */
+      transition: transform 0.5s ease;
+      border-radius: 4px;
+      margin: auto;
+      margin-top: 30px;
+      max-width: 200px;
+      box-shadow: 0 2px 25px #00fffc;
+  }
+  #a1 {
+    margin: 20px 0 30px 0;
+  }
+  #a2 {
+    margin: 0 0 30px 0;
+  }
+  #a3 {
+    margin: 0 0 30px 0;
+  }
+  
+  .links.active {
+      display: flex;
+      transform: translateY(0);
+  }
+}
+
+
+
+@media only screen and (max-width: 768px) {
+    /* Стили для мобильных устройств */
+    .parallax-bg {
+      background-image: url('/assets/pictures/back.jpg'); /* замените на изображение для мобильных устройств */
+      background-size: cover;
+      height: 100vh;
+    }
+  
+    .parallax-content {
+      animation: bgAnimation 10s linear infinite alternate; /* анимация контента */
+    }
+  
+    @keyframes bgAnimation {
+      0% {
+        transform: translateY(-10px);
+      }
+      100% {
+        transform: translateY(10px);
+      }
+    }
+  }

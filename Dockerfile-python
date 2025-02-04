@@ -1,0 +1,10 @@
+FROM python:3.10
+
+WORKDIR /app
+
+RUN pip install --no-cache-dir python-telegram-bot==20.3
+
+# Копируем проект
+COPY . /app
+
+CMD ["python", "views/hook.py"]

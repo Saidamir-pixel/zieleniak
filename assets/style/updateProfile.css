@@ -1,0 +1,81 @@
+.btn-secondary {
+    display: block;
+    padding: 10px 15px;
+    margin-bottom: 20px;
+    background-color: #6c757d;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 4px;
+    text-align: center;
+  }
+  
+  .btn-secondary:hover {
+    background-color: #5a6268;
+  }
+
+.container {
+    max-width: 500px;
+    margin: 50px auto;
+    padding: 20px;
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.controllers {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+.controllers button, a {
+    text-align: center;
+    align-items: center;
+    text-decoration: none;
+    color: #fff; /* Используем неоновый зеленый */
+    background-color: #39FF14;
+    text-shadow: 0 0 5px #39FF14, 0 0 10px #39FF14, 0 0 15px #39FF14;
+    font-weight: bold;
+    padding: 20px;
+}
+
+.button-49 {
+    text-align: center;
+    color: #333;
+    border: none;
+    padding: 12px 30px;
+    margin: 5px;
+    white-space: nowrap;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+    transition: background-color 0.3s ease;
+}
+
+.button-49:hover {
+    background-color: #32cc13;
+}
+  
