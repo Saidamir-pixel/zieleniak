@@ -19,3 +19,13 @@ Additional Notes
 
     Database: Uses MySQL in a Docker container (check docker-compose.yml for credentials).
     GreenPoints: Accumulate automatically and can be redeemed at checkout or for specific reward items.
+
+## How to Run (Docker Compose)
+
+1. Clone or download this repository.
+2. In the project root folder (where `docker-compose.yml` is located), run:
+
+   docker-compose build
+   docker-compose up
+
+Open http://localhost:8080 in your browser to access the app.
