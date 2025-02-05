@@ -7,5 +7,6 @@ $options = [
     PDO::ATTR_EMULATE_PREPARES => false,
 ];
 
-$dbh = new PDO("mysql:host=localhost;dbname=zieleniak", "root", "", $options);
+$dbh = new PDO("mysql:host=db;dbname=zieleniak;charset=utf8", "zieleniak_user", "zieleniak_pass", $options);
+
 

@@ -3,12 +3,11 @@ version: '3.8'
 services:
   db:
     image: mysql:8.0
-    container_name: mysql-db
     environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: zielenak_db
-      MYSQL_USER: zielenak
-      MYSQL_PASSWORD: pass123
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: zieleniak
+      MYSQL_USER: zieleniak_user
+      MYSQL_PASSWORD: zieleniak_pass
     ports:
       - "3306:3306"
     volumes:
@@ -25,9 +24,9 @@ services:
       - db
     environment:
       DB_HOST: db
-      DB_NAME: zielenak_db
-      DB_USER: zielenak
-      DB_PASS: pass123
+      DB_NAME: zieleniak
+      DB_USER: zieleniak_user
+      DB_PASS: zieleniak_pass
 
   python-app:
     build:
@@ -40,9 +39,9 @@ services:
       - "5000:5000"
     environment:
       DB_HOST: db
-      DB_NAME: zielenak_db
-      DB_USER: zielenak
-      DB_PASS: pass123
+      DB_NAME: zieleniak
+      DB_USER: zieleniak_user
+      DB_PASS: zieleniak_pass
 
 volumes:
   db_data:
