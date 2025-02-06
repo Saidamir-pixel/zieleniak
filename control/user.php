@@ -1,4 +1,5 @@
 <?php 
+ob_start();
 require_once 'telegram.php'; // Подключение функции отправки сообщений в Telegram
 
 function user_login() {
@@ -91,7 +92,7 @@ function user_reg() {
             $hash = password_hash($password, PASSWORD_DEFAULT);
             $sql = "INSERT INTO users (nameOfUser, email, password) VALUES (?, ?, ?)";
             $stmt = $dbh->prepare($sql);
-
+            $stmt->execute([$nameOfUser, $email, $hash]);
             header('Location: logIn.php');
             exit();
         }
@@ -277,73 +278,3 @@ function update_user() {
         }
     }
 }
-
-
-
-
-
-
-
-
-
-
-// function saveTimerTime() {
-//     if(isset($_POST['timer'])){
-//         global $dbh;
-//         // Получаем имя пользователя из сессии
-//         $userName = $_SESSION['nameOfUser'];
-        
-//         // Получаем новые данные таймера из POST запроса
-//         $timer = $_POST['timer'];
-        
-//         // Проверяем, существует ли запись для данного пользователя в таблице timer_data
-//         $sql = "SELECT COUNT(*) FROM timer_data WHERE userName = ?";
-//         $stmt = $dbh->prepare($sql);
-//         $stmt->execute([$userName]);
-//         $count = $stmt->fetchColumn();
-        
-//         if ($count > 0) {
-//             // Если запись существует, получаем текущие данные таймера из базы данных
-//             $sql = "SELECT time FROM timer_data WHERE userName = ?";
-//             $stmt = $dbh->prepare($sql);
-//             $stmt->execute([$userName]);
-//             $currentTimerData = $stmt->fetchColumn();
-        
-//             // Выполняем сложение текущих данных с новыми данными
-//             $result = $currentTimerData + $timer;
-        
-//             // Обновляем данные таймера в базе данных
-//             $sql = "UPDATE timer_data SET time = ? WHERE userName = ?";
-//             $stmt = $dbh->prepare($sql);
-//             $stmt->execute([$result, $userName]);
-//         } else {
-//             // Если запись не существует, создаем новую запись с начальным значением данных таймера
-//             $sql = "INSERT INTO timer_data (userName, time) VALUES (?, ?)";
-//             $stmt = $dbh->prepare($sql);
-//             $stmt->execute([$userName, $timer]);
-//         }
-//     }
-// }
-
-
-// function getData() {
-//     global $dbh;
-//     // Получаем имя пользователя из сессии
-//     $userName = $_SESSION['nameOfUser'];
-
-//     // SQL-запрос для извлечения данных таймера для данного пользователя
-//     $sql = "SELECT time FROM timer_data WHERE userName = ?";
-//     $stmt = $dbh->prepare($sql);
-//     $stmt->execute([$userName]);
-//     $data = $stmt->fetch(PDO::FETCH_ASSOC);
-
-//     // Проверяем, найдены ли данные для данного пользователя
-//     if ($data) {
-//         // Установка значения в сессии
-//         $_SESSION['time'] = $data['time'];
-
-//     }
-
-// }
-
-?>

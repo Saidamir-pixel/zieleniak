@@ -37,9 +37,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["timer"])) {
             <?php
                 if (!isset($_SESSION['email'])) { ?>
                     <div class="button">
-                        <a href="views/login.php" id="loginLink">
-                            <button class="bubbly-button">Log In</button>
-                        </a>
+                        <button id="loginLink" class="bubbly-button">
+                            <a  href="/views/logIn.php">Login</a>
+                        </button>
                     </div>
             <?php } else { ?>
                     <div class="button">
@@ -48,7 +48,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["timer"])) {
                         </a>
                     </div>
                     <div class="button">
-                        <a href="views/greenPoints.php" id="assortmentLink">
+                        <a href="/views/greenPoints.php" id="assortmentLink">
                             <button class="bubbly-button">Green Points</button>
                         </a>                
                     </div>

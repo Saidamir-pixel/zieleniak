@@ -15,7 +15,7 @@ unset($_SESSION['product_quantity']);
 
 // Подключение к базе данных
 try {
-    $pdo = new PDO("mysql:host=localhost;dbname=zieleniak", "root", "");
+    $pdo = new PDO("mysql:host=db;port=3306;dbname=zieleniak;charset=utf8", "zieleniak_user", "zieleniak_pass");
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     // SQL-запрос для получения покупок пользователя, сгруппированных по уникальному идентификатору заказа
@@ -42,6 +42,7 @@ try {
 } catch (PDOException $e) {
     die("Ошибка подключения к базе данных: " . $e->getMessage());
 }
+
 ?>
 
 <!DOCTYPE html>

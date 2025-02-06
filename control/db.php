@@ -1,5 +1,4 @@
 <?php
-
 $options = [
     PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
     PDO::ATTR_PERSISTENT => true,
@@ -7,6 +6,5 @@ $options = [
     PDO::ATTR_EMULATE_PREPARES => false,
 ];
 
-$dbh = new PDO("mysql:host=db;dbname=zieleniak;charset=utf8", "zieleniak_user", "zieleniak_pass", $options);
-
-
+$dbh = new PDO("mysql:host=db;port=3306;dbname=zieleniak;charset=utf8", "zieleniak_user", "zieleniak_pass", $options);
+?>

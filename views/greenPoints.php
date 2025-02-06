@@ -11,7 +11,7 @@ if (!isset($_SESSION['email'])) {
 
 // Подключение к базе данных
 try {
-    $pdo = new PDO("mysql:host=localhost;dbname=zieleniak", "root", "");
+    $pdo = new PDO("mysql:host=db;port=3306;dbname=zieleniak;charset=utf8", "zieleniak_user", "zieleniak_pass");
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     // Получаем текущие Green Points пользователя
@@ -25,6 +25,7 @@ try {
 } catch (PDOException $e) {
     die("Ошибка подключения к базе данных: " . $e->getMessage());
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
