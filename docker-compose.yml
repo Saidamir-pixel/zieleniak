@@ -3,6 +3,8 @@ version: '3.8'
 services:
   db:
     image: mysql:8.0
+    container_name: zieleniak-db
+    restart: always
     environment:
       MYSQL_ROOT_PASSWORD: root_password
       MYSQL_DATABASE: zieleniak
@@ -12,13 +14,13 @@ services:
       - "3306:3306"
     volumes:
       - db_data:/var/lib/mysql
-      - ./sql/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
 
   php-app:
     build:
       context: .
       dockerfile: Dockerfile-php
     container_name: zielenak-php
+    restart: always
     ports:
       - "8080:80"
     depends_on:
@@ -29,13 +31,15 @@ services:
       DB_USER: zieleniak_user
       DB_PASS: zieleniak_pass
     volumes:
-      - php_sessions:/var/lib/php/sessions  # <--- Добавляем volume для хранения сессий
+      - .:/var/www/html
+      - /var/lib/php/sessions
 
   python-app:
     build:
       context: .
       dockerfile: Dockerfile-python
     container_name: zielenak-python
+    restart: always
     depends_on:
       - db
     ports:
@@ -49,4 +53,3 @@ services:
 volumes:
   db_data:
     name: db_data
-  php_sessions:  # <--- Добавляем volume для PHP-сессий

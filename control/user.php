@@ -119,11 +119,6 @@ function user_token() {
 
 
 function user_order() {
-    if (!isset($_SESSION['nameOfUser'])) {
-        header("Location: registration.php");
-        exit();
-    }
-    
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $nameOfUser = $_SESSION['nameOfUser'];
         $userEmail = $_SESSION['email'];
@@ -199,8 +194,6 @@ function user_order() {
                            "Date of the order: $date\n" .
                            "\nPurchases:\n" . implode("\n", $productsList);       
             }
-
-
             $chatId = '-1002291622952'; // ID вашего Telegram-чата
             if(sendOrderToTelegram($message, $chatId)){
                 header("Location: profile.php");

@@ -1,6 +1,5 @@
 <?php
 session_start();
-
 include '../control/authController.php';
 order();
 
@@ -38,8 +37,8 @@ function getLastOrderData($email) {
 }
 
 // Получаем email текущего пользователя
-$email = $_SESSION['email'];
-$lastOrderData = getLastOrderData($email); // Получаем последние данные
+// $email = $_SESSION['email'];
+// $lastOrderData = getLastOrderData($email); // Получаем последние данные
 
 ?>
 
@@ -138,24 +137,7 @@ $lastOrderData = getLastOrderData($email); // Получаем последни�
 
 
     <script src="../assets/scripts/cart.js"></script>
-    <?php 
-    // Получаем последний заказ, который не является самовывозом
-    $sql = "SELECT * FROM carts WHERE userEmail = :email AND address != 'Self-Pickup' ORDER BY created_at DESC LIMIT 1";
-    $stmt = $dbh->prepare($sql);
-    $stmt->execute([':email' => $_SESSION['email']]);
-    $lastOrderData = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    if ($lastOrderData): ?>
-        <script>
-            // Передаем последние данные в JavaScript, если это не самовывоз
-            window.lastOrder = <?php echo json_encode($lastOrderData); ?>;
-            document.addEventListener('DOMContentLoaded', () => {
-                document.getElementById('address').value = lastOrder.address || '';
-                document.getElementById('postcode').value = lastOrder.postcode || '';
-                document.getElementById('phone').value = lastOrder.phone || '';
-            });
-        </script>
-    <?php endif; ?>
 
 </body>
 </html>

@@ -11,9 +11,6 @@ WORKDIR /var/www/html
 
 COPY . /var/www/html
 
-# Копируем php.ini в контейнер
-COPY php.ini /usr/local/etc/php/conf.d/php.ini
-
 RUN a2enmod rewrite
 
 EXPOSE 80
