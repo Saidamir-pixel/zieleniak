@@ -25,7 +25,7 @@ Additional Notes
 1. Clone or download this repository.
 2. In the project root folder (where `docker-compose.yml` is located), run:
 
-   docker-compose build
-   docker-compose up
+   docker-compose down
+   docker-compose up -d --build
 
 Open http://localhost:8080 in your browser to access the app.

@@ -1,15 +1,9 @@
 <?php
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
-
-if (!isset($_SESSION['email'])) {
-    header("Location: registration.php");
-    exit();
-}
+session_start();
 
 include '../control/authController.php';
 order();
+
 // Инициализация корзины, если её еще нет
 if (!isset($_SESSION['cart'])) {
     $_SESSION['cart'] = [];
@@ -28,17 +22,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_cart'])) {
 }
 
 function getLastOrderData($email) {
-    global $dbh; // Используем глобальный объект подключения к БД
+    global $dbh;
+
     $sql = "SELECT address, postcode, phone 
-        FROM carts 
-        WHERE userEmail = ? 
-        ORDER BY created_at DESC 
-        LIMIT 1";
+            FROM carts 
+            WHERE userEmail = :email 
+            ORDER BY created_at DESC 
+            LIMIT 1";
 
     $stmt = $dbh->prepare($sql);
-    $stmt->execute([$email]);
+    $stmt->bindParam(':email', $email);
+    $stmt->execute();
 
-    return $stmt->fetch(PDO::FETCH_ASSOC);
+    return $stmt->fetch(PDO::FETCH_ASSOC) ?: []; // Если данных нет, вернёт пустой массив
 }
 
 // Получаем email текущего пользователя
@@ -144,9 +140,9 @@ $lastOrderData = getLastOrderData($email); // Получаем последни�
     <script src="../assets/scripts/cart.js"></script>
     <?php 
     // Получаем последний заказ, который не является самовывозом
-    $sql = "SELECT * FROM carts WHERE nameOfUser = :user AND address != 'Self-Pickup' ORDER BY created_at DESC LIMIT 1";
+    $sql = "SELECT * FROM carts WHERE userEmail = :email AND address != 'Self-Pickup' ORDER BY created_at DESC LIMIT 1";
     $stmt = $dbh->prepare($sql);
-    $stmt->execute([':user' => $_SESSION['nameOfUser']]);
+    $stmt->execute([':email' => $_SESSION['email']]);
     $lastOrderData = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if ($lastOrderData): ?>

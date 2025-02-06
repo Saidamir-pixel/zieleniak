@@ -28,6 +28,8 @@ services:
       DB_NAME: zieleniak
       DB_USER: zieleniak_user
       DB_PASS: zieleniak_pass
+    volumes:
+      - php_sessions:/var/lib/php/sessions  # <--- Добавляем volume для хранения сессий
 
   python-app:
     build:
@@ -47,3 +49,4 @@ services:
 volumes:
   db_data:
     name: db_data
+  php_sessions:  # <--- Добавляем volume для PHP-сессий
