@@ -87,5 +87,5 @@ function extractOrderId($messageText) {
     preg_match('/Order ID: (\w+)/', $messageText, $matches);
     return $matches[1] ?? null;
 }
-?>
+
 

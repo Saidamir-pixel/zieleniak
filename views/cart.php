@@ -1,8 +1,15 @@
 <?php
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+if (!isset($_SESSION['email'])) {
+    header("Location: registration.php");
+    exit();
+}
+
 include '../control/authController.php';
 order();
-
 // Инициализация корзины, если её еще нет
 if (!isset($_SESSION['cart'])) {
     $_SESSION['cart'] = [];
@@ -21,24 +28,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_cart'])) {
 }
 
 function getLastOrderData($email) {
-    global $dbh;
-
+    global $dbh; // Используем глобальный объект подключения к БД
     $sql = "SELECT address, postcode, phone 
-            FROM carts 
-            WHERE userEmail = :email 
-            ORDER BY created_at DESC 
-            LIMIT 1";
+        FROM carts 
+        WHERE userEmail = ? 
+        ORDER BY created_at DESC 
+        LIMIT 1";
 
     $stmt = $dbh->prepare($sql);
-    $stmt->bindParam(':email', $email);
-    $stmt->execute();
+    $stmt->execute([$email]);
 
-    return $stmt->fetch(PDO::FETCH_ASSOC) ?: []; // Если данных нет, вернёт пустой массив
+    return $stmt->fetch(PDO::FETCH_ASSOC);
 }
 
 // Получаем email текущего пользователя
-// $email = $_SESSION['email'];
-// $lastOrderData = getLastOrderData($email); // Получаем последние данные
+$email = $_SESSION['email'];
+$lastOrderData = getLastOrderData($email); // Получаем последние данные
 
 ?>
 
@@ -137,7 +142,24 @@ function getLastOrderData($email) {
 
 
     <script src="../assets/scripts/cart.js"></script>
+    <?php 
+    // Получаем последний заказ, который не является самовывозом
+    $sql = "SELECT * FROM carts WHERE nameOfUser = :user AND address != 'Self-Pickup' ORDER BY created_at DESC LIMIT 1";
+    $stmt = $dbh->prepare($sql);
+    $stmt->execute([':user' => $_SESSION['nameOfUser']]);
+    $lastOrderData = $stmt->fetch(PDO::FETCH_ASSOC);
 
+    if ($lastOrderData): ?>
+        <script>
+            // Передаем последние данные в JavaScript, если это не самовывоз
+            window.lastOrder = <?php echo json_encode($lastOrderData); ?>;
+            document.addEventListener('DOMContentLoaded', () => {
+                document.getElementById('address').value = lastOrder.address || '';
+                document.getElementById('postcode').value = lastOrder.postcode || '';
+                document.getElementById('phone').value = lastOrder.phone || '';
+            });
+        </script>
+    <?php endif; ?>
 
 </body>
 </html>

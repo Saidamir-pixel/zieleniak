@@ -1,5 +1,4 @@
 <?php 
-ob_start();
 require_once 'telegram.php'; // Подключение функции отправки сообщений в Telegram
 
 function user_login() {
@@ -92,7 +91,7 @@ function user_reg() {
             $hash = password_hash($password, PASSWORD_DEFAULT);
             $sql = "INSERT INTO users (nameOfUser, email, password) VALUES (?, ?, ?)";
             $stmt = $dbh->prepare($sql);
-            $stmt->execute([$nameOfUser, $email, $hash]);
+
             header('Location: logIn.php');
             exit();
         }
@@ -117,42 +116,54 @@ function user_token() {
     }
 }
 
-
 function user_order() {
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $nameOfUser = $_SESSION['nameOfUser'];
+        global $dbh;
+
+        // Проверяем, установлена ли сессия email
+        if (!isset($_SESSION['email']) || empty($_SESSION['email'])) {
+            die("Ошибка: Пользователь не авторизован.");
+        }
+
         $userEmail = $_SESSION['email'];
 
-        if (
-            isset($_POST['product_name'], $_POST['product_price'], $_POST['product_quantity'], $_POST['phone'], $_POST['address'],)
-        ) {
+        // Получаем имя пользователя из базы данных
+        $stmt = $dbh->prepare("SELECT nameOfUser FROM users WHERE email = ?");
+        $stmt->execute([$userEmail]);
+        $userData = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if (!$userData) {
+            die("Ошибка: Пользователь не найден в базе данных.");
+        }
+
+        $nameOfUser = $userData['nameOfUser'];
+
+        // Проверяем, переданы ли все необходимые данные из формы
+        if (isset($_POST['product_name'], $_POST['product_price'], $_POST['product_quantity'], $_POST['phone'], $_POST['address'])) {
             $productNames = $_POST['product_name'];
             $productPrices = $_POST['product_price'];
             $productQuantities = $_POST['product_quantity'];
             $phone = htmlspecialchars($_POST['phone']);
             $address = htmlspecialchars($_POST['address']);
-            $postcode = htmlspecialchars($_POST['postcode']);
-            $totalPrice = htmlspecialchars($_POST['hiddenTotalPrice']);
-            
-            global $dbh;
+            $postcode = htmlspecialchars($_POST['postcode'] ?? ''); // Если пусто, пусть будет пустая строка
+            $totalPrice = htmlspecialchars($_POST['hiddenTotalPrice'] ?? '0.00'); // Если пусто, пусть будет 0
 
             // Проверка наличия поля `date` в POST-запросе
             if (isset($_POST['date']) && !empty($_POST['date'])) {
                 $date = htmlspecialchars($_POST['date']);
             } else {
-                // Выполняем запрос для получения последнего `created_at`
+                // Получаем дату последнего заказа или ставим текущую
                 $stmt = $dbh->prepare("SELECT DATE(created_at) AS purchase_date FROM carts WHERE userEmail = ? ORDER BY created_at DESC LIMIT 1");
                 $stmt->execute([$userEmail]);
                 $result = $stmt->fetch(PDO::FETCH_ASSOC);
-                $date = $result ? $result['purchase_date'] : date('Y-m-d'); // Если нет данных, используем текущую дату
+                $date = $result ? $result['purchase_date'] : date('Y-m-d');
             }
 
-            // Обработка методов оплаты
+            // Определяем метод оплаты
             if ($_POST['paymentCheck'] === 'Self-Pickup') {
                 $payMethod = $_POST['paymentCheck'];
-                $address = $payMethod;
-                $postcode = $payMethod;
-
+                $address = "Self-Pickup";
+                $postcode = "N/A";
             } elseif ($_POST['paymentCheck'] === 'Pay to courier') {
                 $payMethod = $_POST['paymentCheck'];
             }
@@ -160,12 +171,12 @@ function user_order() {
             $productsList = [];
             $orderId = uniqid();
 
-            // Сохранение данных заказа в базу данных
+            // Добавление заказа в базу данных
             for ($i = 0; $i < count($productNames); $i++) {
                 $name = htmlspecialchars($productNames[$i]);
                 $price = floatval($productPrices[$i]);
                 $quantity = intval($productQuantities[$i]);
-                
+
                 $sql = "INSERT INTO carts (order_id, nameOfUser, userEmail, product, phone, address, postcode, date, totalPrice) 
                         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
                 $stmt = $dbh->prepare($sql);
@@ -175,35 +186,18 @@ function user_order() {
             }
 
             // Формирование сообщения для Telegram
-            if ($_POST['paymentCheck'] === 'Self-Pickup') {
-                $message = "Order for: $nameOfUser\n" .
-                           "Email: $userEmail\n" .
-                           "Phone: $phone\n" .
-                           "Self-Pickup: $orderId\n" .
-                           "Total Price: $totalPrice PLN\n" .
-                           "Date of the order: $date\n" .
-                           "\nPurchases:\n" . implode("\n", $productsList);
-            } elseif ($_POST['paymentCheck'] === 'Pay to courier') {
-                $message = "Order for: $nameOfUser\n" .
-                           "Email: $userEmail\n" .
-                           "Phone: $phone\n" .
-                           "Address: $address\n" .
-                           "Postcode: $postcode\n" .
-                           "Total Price: $totalPrice PLN\n" .
-                           "Payment method: $payMethod\n" .
-                           "Date of the order: $date\n" .
-                           "\nPurchases:\n" . implode("\n", $productsList);       
-            }
-            $chatId = '-1002291622952'; // ID вашего Telegram-чата
-            if(sendOrderToTelegram($message, $chatId)){
+            $chatId = '-1002291622952';
+            $message = "Order for: $nameOfUser\nEmail: $userEmail\nPhone: $phone\nAddress: $address\nPostcode: $postcode\nTotal Price: $totalPrice PLN\nDate of the order: $date\n\nPurchases:\n" . implode("\n", $productsList);
+
+            if (sendOrderToTelegram($message, $chatId)) {
                 header("Location: profile.php");
                 exit();
             }
             
-            
         }
     }
 }
+
 
 function user_greenPoints() {
     try {
@@ -271,3 +265,5 @@ function update_user() {
         }
     }
 }
+
+?>
